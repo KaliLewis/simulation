@@ -66,7 +66,7 @@
         <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
            :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
           <i class="fas fa-home" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'"></i>
-          <span x-show="!sidebarCollapsed" class="ml-2" 
+          <span x-show="!sidebarCollapsed" class="ml-2"
                 :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">
             Dashboard
           </span>
@@ -90,7 +90,7 @@
       </nav>
     </aside>
 
-    <!-- Main Content Area (no right margin to utilize full width) -->
+    <!-- Main Content Area (full width without right margin) -->
     <div
       :class="{
         'ml-64 w-[calc(100%-16rem)]': !sidebarCollapsed,
@@ -105,7 +105,7 @@
         class="header shadow p-4 flex items-center justify-between"
       >
         <div class="flex items-center md:hidden">
-          <button x-show="!sidebarOpen" @click="sidebarOpen = true" 
+          <button x-show="!sidebarOpen" @click="sidebarOpen = true"
                   class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
                   :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
             <i class="fas fa-bars"></i>
@@ -128,7 +128,6 @@
           </button>
           <div x-show="profileDropdown" x-transition @click.away="profileDropdown = false"
                class="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 shadow rounded overflow-hidden z-20">
-            <!-- Aesthetic buttons only -->
             <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
               <i class="fas fa-user mr-2"></i> Profile Settings
             </a>
@@ -141,7 +140,7 @@
 
       <!-- Main Content (Scrollable) -->
       <main class="flex-1 overflow-auto mt-16 p-4 bg-white text-black">
-        <!-- Dashboard Content: Farm Management Dashboard -->
+        <!-- Farm Management Dashboard -->
         <div class="p-6">
           <h2 class="text-2xl font-bold text-agri-green mb-4">
             <i class="fas fa-seedling"></i> Farm Management Dashboard
@@ -154,8 +153,8 @@
                 <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
                   <i class="fas fa-leaf"></i> North Field - Soybeans (Vegetative)
                 </h3>
-                <!-- Notification Summary -->
-                <div id="NorthFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <!-- Notification Summary (small text, break words) -->
+                <div id="NorthFieldSummary" class="p-2 bg-gray-50 text-xs border-b break-words"></div>
                 <!-- Scrollable Table -->
                 <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
                   <table class="min-w-full bg-white border border-gray-200" id="NorthFieldTable">
@@ -180,7 +179,7 @@
                 <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
                   <i class="fas fa-leaf"></i> East Field - Tomatoes (Flowering)
                 </h3>
-                <div id="EastFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <div id="EastFieldSummary" class="p-2 bg-gray-50 text-xs border-b break-words"></div>
                 <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
                   <table class="min-w-full bg-white border border-gray-200" id="EastFieldTable">
                     <thead class="bg-forest-green text-white sticky top-0 shadow-md">
@@ -204,7 +203,7 @@
                 <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
                   <i class="fas fa-leaf"></i> South Field - Carrots (Seedling)
                 </h3>
-                <div id="SouthFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <div id="SouthFieldSummary" class="p-2 bg-gray-50 text-xs border-b break-words"></div>
                 <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
                   <table class="min-w-full bg-white border border-gray-200" id="SouthFieldTable">
                     <thead class="bg-forest-green text-white sticky top-0 shadow-md">
@@ -228,7 +227,7 @@
                 <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
                   <i class="fas fa-leaf"></i> West Field - Wheat (Harvesting)
                 </h3>
-                <div id="WestFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <div id="WestFieldSummary" class="p-2 bg-gray-50 text-xs border-b break-words"></div>
                 <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
                   <table class="min-w-full bg-white border border-gray-200" id="WestFieldTable">
                     <thead class="bg-forest-green text-white sticky top-0 shadow-md">
@@ -365,11 +364,12 @@
                 summaryMessage = `Humidity at ${data.humidity}% (Normal: ${standardRanges.humidity[0]} - ${standardRanges.humidity[1]}%)`;
                 summaryClass = getCellClass('humidity', data.humidity, standardRanges.humidity, true);
               } else if (forced.nitrogen) {
-                summaryMessage = `Nitrogen at ${data.nitrogen} mg/kg (Normal: ${standardRanges.nitrogen[0]} - ${standardRanges.nitrogen[1]} mg/kg)`;
+                // Shorten nitrogen summary to avoid overlap.
+                summaryMessage = `N: ${data.nitrogen} (Norm: ${standardRanges.nitrogen[0]}-${standardRanges.nitrogen[1]})`;
                 summaryClass = getCellClass('nitrogen', data.nitrogen, standardRanges.nitrogen, true);
               }
               document.getElementById(field.replace(/\s/g, '') + "Summary").innerHTML =
-                `<span class="${summaryClass} p-1 rounded">${summaryMessage}</span>`;
+                `<span class="${summaryClass} p-1 rounded text-xs break-words">${summaryMessage}</span>`;
       
               // Generate detailed, actionable insights for each field.
               let fieldInsight = "";
@@ -433,9 +433,9 @@
       <footer
         :class="colorScheme === 'blue' ? 'bg-gradient-to-r from-blue-800 to-blue-600 border-t border-blue-700' 
                                        : 'bg-gradient-to-r from-green-800 to-green-600 border-t border-green-700'"
-        class="footer shadow p-4 text-center text-white"
+        class="footer shadow p-4 text-center text-white text-sm"
       >
-        &copy; 2025 Admin Panel
+        2025 Made by Code Kona
       </footer>
     </div>
   </div>
