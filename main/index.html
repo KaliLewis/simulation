@@ -10,8 +10,6 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <!-- Google Fonts: Roboto -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <style>
     body { font-family: 'Roboto', sans-serif; }
     .sidebar { height: 100vh; overflow-y: auto; scrollbar-width: thin; transition: width 0.3s ease-in-out; }
@@ -66,7 +64,7 @@
         <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
            :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
           <i class="fas fa-home" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'"></i>
-          <span x-show="!sidebarCollapsed" class="ml-2"
+          <span x-show="!sidebarCollapsed" class="ml-2" 
                 :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">
             Dashboard
           </span>
@@ -105,7 +103,7 @@
         class="header shadow p-4 flex items-center justify-between"
       >
         <div class="flex items-center md:hidden">
-          <button x-show="!sidebarOpen" @click="sidebarOpen = true"
+          <button x-show="!sidebarOpen" @click="sidebarOpen = true" 
                   class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
                   :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
             <i class="fas fa-bars"></i>
@@ -252,7 +250,7 @@
           <!-- Insights Section -->
           <div class="bg-white p-4 shadow-md rounded-lg my-6 border border-agri-green">
             <h3 class="text-lg font-semibold text-agri-green">
-              <i class="fas fa-chart-line"></i> Insights & Recommendations
+              <i class="fas fa-chart-line"></i> Insights &amp; Recommendations
             </h3>
             <div id="insights" class="text-gray-600 mt-2">
               Waiting for data...
@@ -268,7 +266,7 @@
           function getCellClass(param, value, range, forcedProblem) {
             if (forcedProblem) return "py-2 px-4 border bg-red-500 text-white font-bold";
             let [min, max] = range;
-            let delta = (max - min) * 0.2; // 20% margin defines near-boundary zone.
+            let delta = (max - min) * 0.2;
             let optimalLow = min + delta;
             let optimalHigh = max - delta;
             if (value >= optimalLow && value <= optimalHigh) return "py-2 px-4 border bg-green-500 text-white";
@@ -338,49 +336,48 @@
               // Force one parameter to a drastic value per field.
               let forced = { moisture: false, ph: false, humidity: false, nitrogen: false };
               if (field === 'North Field') {
-                data.moisture = 20; // Moisture dropped to 20%
+                data.moisture = 20;
                 forced.moisture = true;
               } else if (field === 'East Field') {
-                data.ph = 4.5; // pH dropped to 4.5
+                data.ph = 4.5;
                 forced.ph = true;
               } else if (field === 'South Field') {
-                data.humidity = 95; // Humidity raised to 95%
+                data.humidity = 95;
                 forced.humidity = true;
               } else if (field === 'West Field') {
-                data.nitrogen = 80; // Nitrogen raised to 80 mg/kg
+                data.nitrogen = 80;
                 forced.nitrogen = true;
               }
       
-              // Update summary above the table with problematic parameter details.
+              // Update summary above the table with abbreviated problematic parameter details.
               let summaryMessage = "";
               let summaryClass = "";
               if (forced.moisture) {
-                summaryMessage = `Moisture at ${data.moisture}% (Normal: ${fieldData.moistureRange[0]} - ${fieldData.moistureRange[1]}%)`;
+                summaryMessage = `Moist: ${data.moisture}% (Norm: ${fieldData.moistureRange[0]}-${fieldData.moistureRange[1]})`;
                 summaryClass = getCellClass('moisture', data.moisture, fieldData.moistureRange, true);
               } else if (forced.ph) {
-                summaryMessage = `pH at ${data.ph} (Normal: ${fieldData.phRange[0]} - ${fieldData.phRange[1]})`;
+                summaryMessage = `pH: ${data.ph} (Norm: ${fieldData.phRange[0]}-${fieldData.phRange[1]})`;
                 summaryClass = getCellClass('ph', data.ph, fieldData.phRange, true);
               } else if (forced.humidity) {
-                summaryMessage = `Humidity at ${data.humidity}% (Normal: ${standardRanges.humidity[0]} - ${standardRanges.humidity[1]}%)`;
+                summaryMessage = `Humid: ${data.humidity}% (Norm: ${standardRanges.humidity[0]}-${standardRanges.humidity[1]})`;
                 summaryClass = getCellClass('humidity', data.humidity, standardRanges.humidity, true);
               } else if (forced.nitrogen) {
-                // Shorten nitrogen summary to avoid overlap.
                 summaryMessage = `N: ${data.nitrogen} (Norm: ${standardRanges.nitrogen[0]}-${standardRanges.nitrogen[1]})`;
                 summaryClass = getCellClass('nitrogen', data.nitrogen, standardRanges.nitrogen, true);
               }
               document.getElementById(field.replace(/\s/g, '') + "Summary").innerHTML =
                 `<span class="${summaryClass} p-1 rounded text-xs break-words">${summaryMessage}</span>`;
       
-              // Generate detailed, actionable insights for each field.
+              // Generate abbreviated actionable insights for each field.
               let fieldInsight = "";
               if (field === 'North Field') {
-                fieldInsight = `Moisture level is ${data.moisture}% (Normal: ${fieldData.moistureRange[0]} - ${fieldData.moistureRange[1]}%).\n\nIncrease irrigation by 20% and verify pump operation. Monitor soil moisture daily.`;
+                fieldInsight = `Moisture is ${data.moisture}%. Increase irrigation by 20% and check pump.`;
               } else if (field === 'East Field') {
-                fieldInsight = `pH level is ${data.ph} (Normal: ${fieldData.phRange[0]} - ${fieldData.phRange[1]}).\n\nApply lime at 50kg/acre and retest in 48 hours. Adjust soil amendments as needed.`;
+                fieldInsight = `pH is ${data.ph}. Apply 50kg/acre lime and retest in 48 hrs.`;
               } else if (field === 'South Field') {
-                fieldInsight = `Humidity level is ${data.humidity}% (Normal: ${standardRanges.humidity[0]} - ${standardRanges.humidity[1]}%).\n\nImprove air circulation by trimming nearby vegetation and consider dehumidification measures if trend continues.`;
+                fieldInsight = `Humidity is ${data.humidity}%. Improve air circulation.`;
               } else if (field === 'West Field') {
-                fieldInsight = `Nitrogen level is ${data.nitrogen} mg/kg (Normal: ${standardRanges.nitrogen[0]} - ${standardRanges.nitrogen[1]} mg/kg).\n\nReduce fertilizer application by 30% immediately and consult agronomic guidance.`;
+                fieldInsight = `N is ${data.nitrogen} mg/kg. Reduce fertilizer by 30% immediately.`;
               }
               insightsData[field] = fieldInsight;
       
@@ -412,13 +409,13 @@
             updateInsights();
           }
       
-          // Update insights with detailed, actionable messages.
+          // Update insights with abbreviated actionable messages.
           function updateInsights() {
             let insightsElement = document.getElementById("insights");
             let messages = [];
             for (let field in insightsData) {
               messages.push(
-                `<p class="mb-4 whitespace-pre-line"><strong>${field}:</strong><br>${insightsData[field]}</p><hr class="my-2 border-t border-gray-300">`
+                `<p class="mb-4 whitespace-pre-line text-xs"><strong>${field}:</strong><br>${insightsData[field]}</p><hr class="my-2 border-t border-gray-300">`
               );
             }
             insightsElement.innerHTML = messages.join("");
@@ -435,7 +432,7 @@
                                        : 'bg-gradient-to-r from-green-800 to-green-600 border-t border-green-700'"
         class="footer shadow p-4 text-center text-white text-sm"
       >
-        2025 Made by Code Kona
+        &copy; 2025 Made by Code Kona
       </footer>
     </div>
   </div>
