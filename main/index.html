@@ -1,33 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Farm Management Dashboard</title>
-  <!-- TailwindCSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>
-    .text-agri-green { color: #1B5E20; }
-    .bg-agri-green { background-color: #1B5E20; }
-    .border-agri-green { border-color: #1B5E20; }
-  </style>
-</head>
-<body class="bg-gray-50">
-
-</body>
-</html>
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel</title>
-
+  <title>Farm Management Dashboard</title>
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Alpine.js -->
@@ -36,38 +12,25 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <!-- Google Fonts: Roboto -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-    }
-    .sidebar {
-      height: 100vh;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      transition: width 0.3s ease-in-out;
-    }
-    .content {
-      transition: margin 0.3s ease-in-out, width 0.3s ease-in-out;
-    }
-    .header,
-    .footer {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      z-index: 10;
-    }
+    body { font-family: 'Roboto', sans-serif; }
+    .sidebar { height: 100vh; overflow-y: auto; scrollbar-width: thin; transition: width 0.3s ease-in-out; }
+    .content { transition: margin 0.3s ease-in-out, width 0.3s ease-in-out; }
+    .header, .footer { position: absolute; left: 0; width: 100%; z-index: 10; }
     .header { top: 0; }
     .footer { bottom: 0; }
+    /* Ensure table columns have enough space on mobile */
+    table { min-width: 600px; }
+    /* Forest green background for table headers */
+    .bg-forest-green { background-color: #228B22; }
   </style>
 </head>
 <body class="bg-gray-50 text-black">
   <div
     x-data="{
       sidebarOpen: false,
-      sidebarCollapsed: true, // Sidebar collapsed by default (only icons visible)
+      sidebarCollapsed: true,
       profileDropdown: false,
-      // Available color schemes: 'blue' or 'green'
       colorScheme: 'green',
       toggleColorScheme() {
         this.colorScheme = this.colorScheme === 'blue' ? 'green' : 'blue';
@@ -83,121 +46,89 @@
     <!-- Left Sidebar -->
     <aside
       :class="[
-        {
-          'w-64': !sidebarCollapsed,
-          'w-16': sidebarCollapsed,
-          'translate-x-0': sidebarOpen,
-          '-translate-x-full': !sidebarOpen
-        },
-        colorScheme === 'blue'
-          ? 'bg-blue-700 border-r border-blue-800'
-          : 'bg-green-700 border-r border-green-800'
+        { 'w-64': !sidebarCollapsed, 'w-16': sidebarCollapsed, 'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen },
+        colorScheme === 'blue' ? 'bg-blue-700 border-r border-blue-800' : 'bg-green-700 border-r border-green-800'
       ]"
       class="fixed inset-y-0 left-0 transform transition-all duration-200 ease-in-out flex flex-col z-20 sidebar shadow"
     >
       <!-- Sidebar Header -->
       <div
-        :class="colorScheme === 'blue'
-          ? 'bg-blue-800 border-b border-blue-900'
-          : 'bg-green-800 border-b border-green-900'"
+        :class="colorScheme === 'blue' ? 'bg-blue-800 border-b border-blue-900' : 'bg-green-800 border-b border-green-900'"
         class="p-4 text-lg font-bold flex justify-between items-center"
       >
         <span x-show="!sidebarCollapsed" class="text-white">Admin</span>
-        <!-- Hamburger menu toggle -->
         <button @click="sidebarCollapsed = !sidebarCollapsed" class="text-white focus:outline-none">
           <i class="fas fa-bars"></i>
         </button>
       </div>
-
       <!-- Sidebar Menu -->
       <nav class="flex-1 p-2 space-y-2">
-        <!-- Dashboard -->
-        <a
-          href="#"
-          class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
-          :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'"
-        >
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
+           :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
           <i class="fas fa-home" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'"></i>
-          <span x-show="!sidebarCollapsed" class="ml-2" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">Dashboard</span>
+          <span x-show="!sidebarCollapsed" class="ml-2" 
+                :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">
+            Dashboard
+          </span>
         </a>
-        <!-- Users -->
-        <a
-          href="#"
-          class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
-          :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'"
-        >
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
+           :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
           <i class="fas fa-user-friends" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'"></i>
-          <span x-show="!sidebarCollapsed" class="ml-2" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">Users</span>
+          <span x-show="!sidebarCollapsed" class="ml-2"
+                :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">
+            Users
+          </span>
         </a>
-        <!-- Settings -->
-        <a
-          href="#"
-          class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
-          :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'"
-        >
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-opacity-90"
+           :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
           <i class="fas fa-sliders-h" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'"></i>
-          <span x-show="!sidebarCollapsed" class="ml-2" :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">Settings</span>
+          <span x-show="!sidebarCollapsed" class="ml-2"
+                :class="colorScheme === 'blue' ? 'text-blue-100' : 'text-green-100'">
+            Settings
+          </span>
         </a>
       </nav>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Area (no right margin to utilize full width) -->
     <div
       :class="{
-        'ml-64 mr-16 w-[calc(100%-20rem)]': !sidebarCollapsed,
-        'ml-16 mr-16 w-[calc(100%-8rem)]': sidebarCollapsed
+        'ml-64 w-[calc(100%-16rem)]': !sidebarCollapsed,
+        'ml-16 w-[calc(100%-4rem)]': sidebarCollapsed
       }"
       class="flex-1 flex flex-col overflow-hidden transition-all duration-200 content"
     >
       <!-- Top Bar Header -->
       <header
-        :class="colorScheme === 'blue' ? 'bg-gradient-to-r from-blue-800 to-blue-600 border-b border-blue-700' : 'bg-gradient-to-r from-green-800 to-green-600 border-b border-green-700'"
+        :class="colorScheme === 'blue' ? 'bg-gradient-to-r from-blue-800 to-blue-600 border-b border-blue-700' 
+                                       : 'bg-gradient-to-r from-green-800 to-green-600 border-b border-green-700'"
         class="header shadow p-4 flex items-center justify-between"
       >
-        <!-- Left: Hamburger for mobile -->
         <div class="flex items-center md:hidden">
-          <button
-            x-show="!sidebarOpen"
-            @click="sidebarOpen = true"
-            class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
-            :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'"
-          >
+          <button x-show="!sidebarOpen" @click="sidebarOpen = true" 
+                  class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
+                  :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'">
             <i class="fas fa-bars"></i>
           </button>
         </div>
-
-        <!-- Center: Company Logo -->
         <div class="flex-1 flex justify-center">
           <h1 class="text-xl font-bold text-white">Agri Glow</h1>
         </div>
-
-        <!-- Right: Color Toggle & Profile Dropdown -->
         <div class="flex items-center space-x-2 relative">
-          <!-- Color Toggle Button -->
-          <button
-            @click="toggleColorScheme()"
-            class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
-            :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'"
-            title="Toggle Color Scheme"
-          >
+          <button @click="toggleColorScheme()" class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
+                  :class="colorScheme === 'blue' ? 'hover:bg-blue-600' : 'hover:bg-green-600'"
+                  title="Toggle Color Scheme">
             <i class="fas fa-adjust"></i>
           </button>
-          <!-- Profile Icon & Dropdown -->
           <i class="fas fa-user-circle text-2xl text-white"></i>
-          <button
-            class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
-            @click="profileDropdown = !profileDropdown"
-            :class="colorScheme === 'blue' ? 'hover:bg-blue-700' : 'hover:bg-green-700'"
-          >
+          <button class="p-2 hover:bg-opacity-80 rounded text-white focus:outline-none"
+                  @click="profileDropdown = !profileDropdown"
+                  :class="colorScheme === 'blue' ? 'hover:bg-blue-700' : 'hover:bg-green-700'">
             <i class="fas fa-chevron-down"></i>
           </button>
-          <div
-            x-show="profileDropdown"
-            x-transition
-            @click.away="profileDropdown = false"
-            class="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 shadow rounded overflow-hidden z-20"
-          >
-            <!-- Purely aesthetic buttons -->
+          <div x-show="profileDropdown" x-transition @click.away="profileDropdown = false"
+               class="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 shadow rounded overflow-hidden z-20">
+            <!-- Aesthetic buttons only -->
             <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
               <i class="fas fa-user mr-2"></i> Profile Settings
             </a>
@@ -210,311 +141,303 @@
 
       <!-- Main Content (Scrollable) -->
       <main class="flex-1 overflow-auto mt-16 p-4 bg-white text-black">
-        <!-- Content goes here -->
+        <!-- Dashboard Content: Farm Management Dashboard -->
         <div class="p-6">
-            <h2 class="text-2xl font-bold text-agri-green mb-4">
-              <i class="fas fa-seedling"></i> Farm Management Dashboard
-            </h2>
-        
-            <!-- Container for sensor tables -->
-            <div class="container mx-auto">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Field Containers -->
-                <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
-                  <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
-                    <i class="fas fa-leaf"></i> North Field - Soybeans (Vegetative)
-                  </h3>
-                  <!-- Summary for problematic parameter -->
-                  <div id="NorthFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
-                  <!-- Scrollable table -->
-                  <div class="overflow-y-auto max-h-64 relative">
-                    <table class="min-w-full bg-white border border-gray-200" id="NorthFieldTable">
-                      <thead class="bg-agri-green text-white sticky top-0 shadow-md">
-                        <tr>
-                          <th class="py-2 px-4 border">Moisture (%)</th>
-                          <th class="py-2 px-4 border">pH</th>
-                          <th class="py-2 px-4 border">Soil Temp (°C)</th>
-                          <th class="py-2 px-4 border">Humidity (%)</th>
-                          <th class="py-2 px-4 border">N (mg/kg)</th>
-                          <th class="py-2 px-4 border">P (mg/kg)</th>
-                          <th class="py-2 px-4 border">K (mg/kg)</th>
-                          <th class="py-2 px-4 border">Recorded At</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-gray-800"></tbody>
-                    </table>
-                  </div>
-                </div>
-        
-                <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
-                  <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
-                    <i class="fas fa-leaf"></i> East Field - Tomatoes (Flowering)
-                  </h3>
-                  <div id="EastFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
-                  <div class="overflow-y-auto max-h-64 relative">
-                    <table class="min-w-full bg-white border border-gray-200" id="EastFieldTable">
-                      <thead class="bg-agri-green text-white sticky top-0 shadow-md">
-                        <tr>
-                          <th class="py-2 px-4 border">Moisture (%)</th>
-                          <th class="py-2 px-4 border">pH</th>
-                          <th class="py-2 px-4 border">Soil Temp (°C)</th>
-                          <th class="py-2 px-4 border">Humidity (%)</th>
-                          <th class="py-2 px-4 border">N (mg/kg)</th>
-                          <th class="py-2 px-4 border">P (mg/kg)</th>
-                          <th class="py-2 px-4 border">K (mg/kg)</th>
-                          <th class="py-2 px-4 border">Recorded At</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-gray-800"></tbody>
-                    </table>
-                  </div>
-                </div>
-        
-                <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
-                  <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
-                    <i class="fas fa-leaf"></i> South Field - Carrots (Seedling)
-                  </h3>
-                  <div id="SouthFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
-                  <div class="overflow-y-auto max-h-64 relative">
-                    <table class="min-w-full bg-white border border-gray-200" id="SouthFieldTable">
-                      <thead class="bg-agri-green text-white sticky top-0 shadow-md">
-                        <tr>
-                          <th class="py-2 px-4 border">Moisture (%)</th>
-                          <th class="py-2 px-4 border">pH</th>
-                          <th class="py-2 px-4 border">Soil Temp (°C)</th>
-                          <th class="py-2 px-4 border">Humidity (%)</th>
-                          <th class="py-2 px-4 border">N (mg/kg)</th>
-                          <th class="py-2 px-4 border">P (mg/kg)</th>
-                          <th class="py-2 px-4 border">K (mg/kg)</th>
-                          <th class="py-2 px-4 border">Recorded At</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-gray-800"></tbody>
-                    </table>
-                  </div>
-                </div>
-        
-                <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
-                  <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
-                    <i class="fas fa-leaf"></i> West Field - Wheat (Harvesting)
-                  </h3>
-                  <div id="WestFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
-                  <div class="overflow-y-auto max-h-64 relative">
-                    <table class="min-w-full bg-white border border-gray-200" id="WestFieldTable">
-                      <thead class="bg-agri-green text-white sticky top-0 shadow-md">
-                        <tr>
-                          <th class="py-2 px-4 border">Moisture (%)</th>
-                          <th class="py-2 px-4 border">pH</th>
-                          <th class="py-2 px-4 border">Soil Temp (°C)</th>
-                          <th class="py-2 px-4 border">Humidity (%)</th>
-                          <th class="py-2 px-4 border">N (mg/kg)</th>
-                          <th class="py-2 px-4 border">P (mg/kg)</th>
-                          <th class="py-2 px-4 border">K (mg/kg)</th>
-                          <th class="py-2 px-4 border">Recorded At</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-gray-800"></tbody>
-                    </table>
-                  </div>
+          <h2 class="text-2xl font-bold text-agri-green mb-4">
+            <i class="fas fa-seedling"></i> Farm Management Dashboard
+          </h2>
+          <!-- Sensor Tables Container -->
+          <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- North Field -->
+              <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
+                <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
+                  <i class="fas fa-leaf"></i> North Field - Soybeans (Vegetative)
+                </h3>
+                <!-- Notification Summary -->
+                <div id="NorthFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <!-- Scrollable Table -->
+                <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
+                  <table class="min-w-full bg-white border border-gray-200" id="NorthFieldTable">
+                    <thead class="bg-forest-green text-white sticky top-0 shadow-md">
+                      <tr>
+                        <th class="py-2 px-4 border">Moisture (%)</th>
+                        <th class="py-2 px-4 border">pH</th>
+                        <th class="py-2 px-4 border">Soil Temp (°C)</th>
+                        <th class="py-2 px-4 border">Humidity (%)</th>
+                        <th class="py-2 px-4 border">N (mg/kg)</th>
+                        <th class="py-2 px-4 border">P (mg/kg)</th>
+                        <th class="py-2 px-4 border">K (mg/kg)</th>
+                        <th class="py-2 px-4 border">Recorded At</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-gray-800"></tbody>
+                  </table>
                 </div>
               </div>
-            </div>
-        
-            <!-- Insights Section -->
-            <div class="bg-white p-4 shadow-md rounded-lg my-6 border border-agri-green">
-              <h3 class="text-lg font-semibold text-agri-green">
-                <i class="fas fa-chart-line"></i> Insights & Recommendations
-              </h3>
-              <div id="insights" class="text-gray-600 mt-2">
-                Waiting for data...
+              <!-- East Field -->
+              <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
+                <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
+                  <i class="fas fa-leaf"></i> East Field - Tomatoes (Flowering)
+                </h3>
+                <div id="EastFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
+                  <table class="min-w-full bg-white border border-gray-200" id="EastFieldTable">
+                    <thead class="bg-forest-green text-white sticky top-0 shadow-md">
+                      <tr>
+                        <th class="py-2 px-4 border">Moisture (%)</th>
+                        <th class="py-2 px-4 border">pH</th>
+                        <th class="py-2 px-4 border">Soil Temp (°C)</th>
+                        <th class="py-2 px-4 border">Humidity (%)</th>
+                        <th class="py-2 px-4 border">N (mg/kg)</th>
+                        <th class="py-2 px-4 border">P (mg/kg)</th>
+                        <th class="py-2 px-4 border">K (mg/kg)</th>
+                        <th class="py-2 px-4 border">Recorded At</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-gray-800"></tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- South Field -->
+              <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
+                <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
+                  <i class="fas fa-leaf"></i> South Field - Carrots (Seedling)
+                </h3>
+                <div id="SouthFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
+                  <table class="min-w-full bg-white border border-gray-200" id="SouthFieldTable">
+                    <thead class="bg-forest-green text-white sticky top-0 shadow-md">
+                      <tr>
+                        <th class="py-2 px-4 border">Moisture (%)</th>
+                        <th class="py-2 px-4 border">pH</th>
+                        <th class="py-2 px-4 border">Soil Temp (°C)</th>
+                        <th class="py-2 px-4 border">Humidity (%)</th>
+                        <th class="py-2 px-4 border">N (mg/kg)</th>
+                        <th class="py-2 px-4 border">P (mg/kg)</th>
+                        <th class="py-2 px-4 border">K (mg/kg)</th>
+                        <th class="py-2 px-4 border">Recorded At</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-gray-800"></tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- West Field -->
+              <div class="bg-white shadow-md rounded-lg overflow-hidden border border-agri-green">
+                <h3 class="text-lg font-semibold text-agri-green p-4 border-b bg-gray-100">
+                  <i class="fas fa-leaf"></i> West Field - Wheat (Harvesting)
+                </h3>
+                <div id="WestFieldSummary" class="p-2 bg-gray-50 text-sm border-b"></div>
+                <div class="overflow-x-auto overflow-y-auto max-h-64 relative">
+                  <table class="min-w-full bg-white border border-gray-200" id="WestFieldTable">
+                    <thead class="bg-forest-green text-white sticky top-0 shadow-md">
+                      <tr>
+                        <th class="py-2 px-4 border">Moisture (%)</th>
+                        <th class="py-2 px-4 border">pH</th>
+                        <th class="py-2 px-4 border">Soil Temp (°C)</th>
+                        <th class="py-2 px-4 border">Humidity (%)</th>
+                        <th class="py-2 px-4 border">N (mg/kg)</th>
+                        <th class="py-2 px-4 border">P (mg/kg)</th>
+                        <th class="py-2 px-4 border">K (mg/kg)</th>
+                        <th class="py-2 px-4 border">Recorded At</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-gray-800"></tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
-        
-          <script>
-            // Global time variable: simulate increasing time by 10-second increments.
-            let currentTime = new Date();
-        
-            // Helper: Assign cell class based on optimal, borderline, or forced drastic values.
-            function getCellClass(param, value, range, forcedProblem) {
-              if (forcedProblem) return "py-2 px-4 border bg-red-500 text-white font-bold";
-              let [min, max] = range;
-              let delta = (max - min) * 0.2; // 20% margin defines near-boundary zone.
-              let optimalLow = min + delta;
-              let optimalHigh = max - delta;
-              if (value >= optimalLow && value <= optimalHigh) return "py-2 px-4 border bg-green-500 text-white";
-              return "py-2 px-4 border bg-orange-500 text-white";
+      
+          <!-- Insights Section -->
+          <div class="bg-white p-4 shadow-md rounded-lg my-6 border border-agri-green">
+            <h3 class="text-lg font-semibold text-agri-green">
+              <i class="fas fa-chart-line"></i> Insights & Recommendations
+            </h3>
+            <div id="insights" class="text-gray-600 mt-2">
+              Waiting for data...
+            </div>
+          </div>
+        </div>
+      
+        <script>
+          // Global time variable: simulate increasing time by 10-second increments.
+          let currentTime = new Date();
+      
+          // Helper: Assign cell class based on optimal, borderline, or forced drastic values.
+          function getCellClass(param, value, range, forcedProblem) {
+            if (forcedProblem) return "py-2 px-4 border bg-red-500 text-white font-bold";
+            let [min, max] = range;
+            let delta = (max - min) * 0.2; // 20% margin defines near-boundary zone.
+            let optimalLow = min + delta;
+            let optimalHigh = max - delta;
+            if (value >= optimalLow && value <= optimalHigh) return "py-2 px-4 border bg-green-500 text-white";
+            return "py-2 px-4 border bg-orange-500 text-white";
+          }
+      
+          // Returns a random value with controlled variation.
+          function getRandomValue(min, max, prevValue, variation = 2) {
+            let newValue = parseFloat(prevValue) + (Math.random() * variation - (variation / 2));
+            return parseFloat(Math.max(min, Math.min(max, newValue)).toFixed(2));
+          }
+      
+          const fields = {
+            'North Field': { 
+              crop: 'Soybeans', growth_stage: 'Vegetative', 
+              moistureRange: [30, 50], phRange: [6.2, 6.8] 
+            },
+            'East Field': { 
+              crop: 'Tomatoes', growth_stage: 'Flowering', 
+              moistureRange: [50, 70], phRange: [5.8, 6.5] 
+            },
+            'South Field': { 
+              crop: 'Carrots', growth_stage: 'Seedling', 
+              moistureRange: [40, 60], phRange: [6.0, 6.8] 
+            },
+            'West Field': { 
+              crop: 'Wheat', growth_stage: 'Harvesting', 
+              moistureRange: [20, 40], phRange: [5.5, 6.2] 
             }
-        
-            // Returns a random value with controlled variation.
-            function getRandomValue(min, max, prevValue, variation = 2) {
-              let newValue = parseFloat(prevValue) + (Math.random() * variation - (variation / 2));
-              return parseFloat(Math.max(min, Math.min(max, newValue)).toFixed(2));
-            }
-        
-            const fields = {
-              'North Field': { 
-                crop: 'Soybeans', growth_stage: 'Vegetative', 
-                moistureRange: [30, 50], phRange: [6.2, 6.8] 
-              },
-              'East Field': { 
-                crop: 'Tomatoes', growth_stage: 'Flowering', 
-                moistureRange: [50, 70], phRange: [5.8, 6.5] 
-              },
-              'South Field': { 
-                crop: 'Carrots', growth_stage: 'Seedling', 
-                moistureRange: [40, 60], phRange: [6.0, 6.8] 
-              },
-              'West Field': { 
-                crop: 'Wheat', growth_stage: 'Harvesting', 
-                moistureRange: [20, 40], phRange: [5.5, 6.2] 
+          };
+      
+          const standardRanges = {
+            soil_temp: [10, 35],
+            humidity: [30, 90],
+            nitrogen: [10, 60],
+            phosphorus: [5, 50],
+            potassium: [5, 50]
+          };
+      
+          let entryCount = 0;
+          let insightsData = {};
+      
+          function generateSensorData() {
+            entryCount++;
+            insightsData = {};
+      
+            // Increment global time by 10 seconds.
+            currentTime = new Date(currentTime.getTime() + 10000);
+            let formattedTime = currentTime.toLocaleTimeString();
+      
+            Object.keys(fields).forEach(field => {
+              let fieldData = fields[field];
+              let tableBody = document.querySelector(`#${field.replace(/\s/g, '')}Table tbody`);
+      
+              // Generate sensor values.
+              let data = {
+                moisture: getRandomValue(fieldData.moistureRange[0], fieldData.moistureRange[1], 50, 2),
+                ph: getRandomValue(fieldData.phRange[0], fieldData.phRange[1], 6.5, 0.2),
+                soil_temp: getRandomValue(standardRanges.soil_temp[0], standardRanges.soil_temp[1], 22, 1),
+                humidity: getRandomValue(standardRanges.humidity[0], standardRanges.humidity[1], 60, 2),
+                nitrogen: getRandomValue(standardRanges.nitrogen[0], standardRanges.nitrogen[1], 30, 5),
+                phosphorus: getRandomValue(standardRanges.phosphorus[0], standardRanges.phosphorus[1], 20, 3),
+                potassium: getRandomValue(standardRanges.potassium[0], standardRanges.potassium[1], 20, 3),
+                recorded_at: formattedTime
+              };
+      
+              // Force one parameter to a drastic value per field.
+              let forced = { moisture: false, ph: false, humidity: false, nitrogen: false };
+              if (field === 'North Field') {
+                data.moisture = 20; // Moisture dropped to 20%
+                forced.moisture = true;
+              } else if (field === 'East Field') {
+                data.ph = 4.5; // pH dropped to 4.5
+                forced.ph = true;
+              } else if (field === 'South Field') {
+                data.humidity = 95; // Humidity raised to 95%
+                forced.humidity = true;
+              } else if (field === 'West Field') {
+                data.nitrogen = 80; // Nitrogen raised to 80 mg/kg
+                forced.nitrogen = true;
               }
-            };
-        
-            const standardRanges = {
-              soil_temp: [10, 35],
-              humidity: [30, 90],
-              nitrogen: [10, 60],
-              phosphorus: [5, 50],
-              potassium: [5, 50]
-            };
-        
-            let entryCount = 0;
-            let insightsData = {};
-        
-            function generateSensorData() {
-              entryCount++;
-              insightsData = {};
-        
-              // Increment global time by 10 seconds.
-              currentTime = new Date(currentTime.getTime() + 10000);
-              let formattedTime = currentTime.toLocaleTimeString();
-        
-              Object.keys(fields).forEach(field => {
-                let fieldData = fields[field];
-                let tableBody = document.querySelector(`#${field.replace(/\s/g, '')}Table tbody`);
-        
-                // Generate sensor values.
-                let data = {
-                  moisture: getRandomValue(fieldData.moistureRange[0], fieldData.moistureRange[1], 50, 2),
-                  ph: getRandomValue(fieldData.phRange[0], fieldData.phRange[1], 6.5, 0.2),
-                  soil_temp: getRandomValue(standardRanges.soil_temp[0], standardRanges.soil_temp[1], 22, 1),
-                  humidity: getRandomValue(standardRanges.humidity[0], standardRanges.humidity[1], 60, 2),
-                  nitrogen: getRandomValue(standardRanges.nitrogen[0], standardRanges.nitrogen[1], 30, 5),
-                  phosphorus: getRandomValue(standardRanges.phosphorus[0], standardRanges.phosphorus[1], 20, 3),
-                  potassium: getRandomValue(standardRanges.potassium[0], standardRanges.potassium[1], 20, 3),
-                  recorded_at: formattedTime
-                };
-        
-                // Force one parameter to a drastic value per field.
-                let forced = { moisture: false, ph: false, humidity: false, nitrogen: false };
-                if (field === 'North Field') {
-                  data.moisture = 20; // Moisture dropped to 20%
-                  forced.moisture = true;
-                } else if (field === 'East Field') {
-                  data.ph = 4.5; // pH dropped to 4.5
-                  forced.ph = true;
-                } else if (field === 'South Field') {
-                  data.humidity = 95; // Humidity raised to 95%
-                  forced.humidity = true;
-                } else if (field === 'West Field') {
-                  data.nitrogen = 80; // Nitrogen raised to 80 mg/kg
-                  forced.nitrogen = true;
-                }
-        
-                // Update summary above the table with problematic parameter details.
-                let summaryMessage = "";
-                let summaryClass = "";
-                if (forced.moisture) {
-                  summaryMessage = `Moisture at ${data.moisture}% (Normal: ${fieldData.moistureRange[0]} - ${fieldData.moistureRange[1]}%)`;
-                  summaryClass = getCellClass('moisture', data.moisture, fieldData.moistureRange, true);
-                } else if (forced.ph) {
-                  summaryMessage = `pH at ${data.ph} (Normal: ${fieldData.phRange[0]} - ${fieldData.phRange[1]})`;
-                  summaryClass = getCellClass('ph', data.ph, fieldData.phRange, true);
-                } else if (forced.humidity) {
-                  summaryMessage = `Humidity at ${data.humidity}% (Normal: ${standardRanges.humidity[0]} - ${standardRanges.humidity[1]}%)`;
-                  summaryClass = getCellClass('humidity', data.humidity, standardRanges.humidity, true);
-                } else if (forced.nitrogen) {
-                  summaryMessage = `Nitrogen at ${data.nitrogen} mg/kg (Normal: ${standardRanges.nitrogen[0]} - ${standardRanges.nitrogen[1]} mg/kg)`;
-                  summaryClass = getCellClass('nitrogen', data.nitrogen, standardRanges.nitrogen, true);
-                }
-                document.getElementById(field.replace(/\s/g, '') + "Summary").innerHTML =
-                  `<span class="${summaryClass} p-1 rounded">${summaryMessage}</span>`;
-        
-                // Generate detailed, actionable insights for each field.
-                let fieldInsight = "";
-                if (field === 'North Field') {
-                  fieldInsight = `Moisture level is ${data.moisture}% (Normal: ${fieldData.moistureRange[0]} - ${fieldData.moistureRange[1]}%).\n\nIncrease irrigation by 20% and verify pump operation. Monitor soil moisture daily.`;
-                } else if (field === 'East Field') {
-                  fieldInsight = `pH level is ${data.ph} (Normal: ${fieldData.phRange[0]} - ${fieldData.phRange[1]}).\n\nApply lime at 50kg/acre and retest in 48 hours. Adjust soil amendments as needed.`;
-                } else if (field === 'South Field') {
-                  fieldInsight = `Humidity level is ${data.humidity}% (Normal: ${standardRanges.humidity[0]} - ${standardRanges.humidity[1]}%).\n\nImprove air circulation by trimming nearby vegetation and consider dehumidification measures if trend continues.`;
-                } else if (field === 'West Field') {
-                  fieldInsight = `Nitrogen level is ${data.nitrogen} mg/kg (Normal: ${standardRanges.nitrogen[0]} - ${standardRanges.nitrogen[1]} mg/kg).\n\nReduce fertilizer application by 30% immediately and consult agronomic guidance.`;
-                }
-                insightsData[field] = fieldInsight;
-        
-                // Build table row with conditional cell coloring.
-                let moistureCell = `<td class="${getCellClass('moisture', data.moisture, fieldData.moistureRange, forced.moisture)}">${data.moisture}</td>`;
-                let phCell = `<td class="${getCellClass('ph', data.ph, fieldData.phRange, forced.ph)}">${data.ph}</td>`;
-                let soilTempCell = `<td class="${getCellClass('soil_temp', data.soil_temp, standardRanges.soil_temp, false)}">${data.soil_temp}</td>`;
-                let humidityCell = `<td class="${getCellClass('humidity', data.humidity, standardRanges.humidity, forced.humidity)}">${data.humidity}</td>`;
-                let nitrogenCell = `<td class="${getCellClass('nitrogen', data.nitrogen, standardRanges.nitrogen, forced.nitrogen)}">${data.nitrogen}</td>`;
-                let phosphorusCell = `<td class="${getCellClass('phosphorus', data.phosphorus, standardRanges.phosphorus, false)}">${data.phosphorus}</td>`;
-                let potassiumCell = `<td class="${getCellClass('potassium', data.potassium, standardRanges.potassium, false)}">${data.potassium}</td>`;
-                let recordedAtCell = `<td class="py-2 px-4 border">${data.recorded_at}</td>`;
-        
-                let row = `<tr class="border">
-                    ${moistureCell}
-                    ${phCell}
-                    ${soilTempCell}
-                    ${humidityCell}
-                    ${nitrogenCell}
-                    ${phosphorusCell}
-                    ${potassiumCell}
-                    ${recordedAtCell}
-                </tr>`;
-        
-                tableBody.insertAdjacentHTML('afterbegin', row);
-                if (tableBody.rows.length > 5) tableBody.deleteRow(-1);
-              });
-        
-              updateInsights();
-            }
-        
-            // Update insights with detailed, actionable messages.
-            function updateInsights() {
-              let insightsElement = document.getElementById("insights");
-              let messages = [];
-              for (let field in insightsData) {
-                messages.push(
-                  `<p class="mb-4 whitespace-pre-line"><strong>${field}:</strong><br>${insightsData[field]}</p><hr class="my-2 border-t border-gray-300">`
-                );
+      
+              // Update summary above the table with problematic parameter details.
+              let summaryMessage = "";
+              let summaryClass = "";
+              if (forced.moisture) {
+                summaryMessage = `Moisture at ${data.moisture}% (Normal: ${fieldData.moistureRange[0]} - ${fieldData.moistureRange[1]}%)`;
+                summaryClass = getCellClass('moisture', data.moisture, fieldData.moistureRange, true);
+              } else if (forced.ph) {
+                summaryMessage = `pH at ${data.ph} (Normal: ${fieldData.phRange[0]} - ${fieldData.phRange[1]})`;
+                summaryClass = getCellClass('ph', data.ph, fieldData.phRange, true);
+              } else if (forced.humidity) {
+                summaryMessage = `Humidity at ${data.humidity}% (Normal: ${standardRanges.humidity[0]} - ${standardRanges.humidity[1]}%)`;
+                summaryClass = getCellClass('humidity', data.humidity, standardRanges.humidity, true);
+              } else if (forced.nitrogen) {
+                summaryMessage = `Nitrogen at ${data.nitrogen} mg/kg (Normal: ${standardRanges.nitrogen[0]} - ${standardRanges.nitrogen[1]} mg/kg)`;
+                summaryClass = getCellClass('nitrogen', data.nitrogen, standardRanges.nitrogen, true);
               }
-              insightsElement.innerHTML = messages.join("");
+              document.getElementById(field.replace(/\s/g, '') + "Summary").innerHTML =
+                `<span class="${summaryClass} p-1 rounded">${summaryMessage}</span>`;
+      
+              // Generate detailed, actionable insights for each field.
+              let fieldInsight = "";
+              if (field === 'North Field') {
+                fieldInsight = `Moisture level is ${data.moisture}% (Normal: ${fieldData.moistureRange[0]} - ${fieldData.moistureRange[1]}%).\n\nIncrease irrigation by 20% and verify pump operation. Monitor soil moisture daily.`;
+              } else if (field === 'East Field') {
+                fieldInsight = `pH level is ${data.ph} (Normal: ${fieldData.phRange[0]} - ${fieldData.phRange[1]}).\n\nApply lime at 50kg/acre and retest in 48 hours. Adjust soil amendments as needed.`;
+              } else if (field === 'South Field') {
+                fieldInsight = `Humidity level is ${data.humidity}% (Normal: ${standardRanges.humidity[0]} - ${standardRanges.humidity[1]}%).\n\nImprove air circulation by trimming nearby vegetation and consider dehumidification measures if trend continues.`;
+              } else if (field === 'West Field') {
+                fieldInsight = `Nitrogen level is ${data.nitrogen} mg/kg (Normal: ${standardRanges.nitrogen[0]} - ${standardRanges.nitrogen[1]} mg/kg).\n\nReduce fertilizer application by 30% immediately and consult agronomic guidance.`;
+              }
+              insightsData[field] = fieldInsight;
+      
+              // Build table row with conditional cell coloring.
+              let moistureCell = `<td class="${getCellClass('moisture', data.moisture, fieldData.moistureRange, forced.moisture)}">${data.moisture}</td>`;
+              let phCell = `<td class="${getCellClass('ph', data.ph, fieldData.phRange, forced.ph)}">${data.ph}</td>`;
+              let soilTempCell = `<td class="${getCellClass('soil_temp', data.soil_temp, standardRanges.soil_temp, false)}">${data.soil_temp}</td>`;
+              let humidityCell = `<td class="${getCellClass('humidity', data.humidity, standardRanges.humidity, forced.humidity)}">${data.humidity}</td>`;
+              let nitrogenCell = `<td class="${getCellClass('nitrogen', data.nitrogen, standardRanges.nitrogen, forced.nitrogen)}">${data.nitrogen}</td>`;
+              let phosphorusCell = `<td class="${getCellClass('phosphorus', data.phosphorus, standardRanges.phosphorus, false)}">${data.phosphorus}</td>`;
+              let potassiumCell = `<td class="${getCellClass('potassium', data.potassium, standardRanges.potassium, false)}">${data.potassium}</td>`;
+              let recordedAtCell = `<td class="py-2 px-4 border">${data.recorded_at}</td>`;
+      
+              let row = `<tr class="border">
+                  ${moistureCell}
+                  ${phCell}
+                  ${soilTempCell}
+                  ${humidityCell}
+                  ${nitrogenCell}
+                  ${phosphorusCell}
+                  ${potassiumCell}
+                  ${recordedAtCell}
+              </tr>`;
+      
+              tableBody.insertAdjacentHTML('afterbegin', row);
+              if (tableBody.rows.length > 5) tableBody.deleteRow(-1);
+            });
+      
+            updateInsights();
+          }
+      
+          // Update insights with detailed, actionable messages.
+          function updateInsights() {
+            let insightsElement = document.getElementById("insights");
+            let messages = [];
+            for (let field in insightsData) {
+              messages.push(
+                `<p class="mb-4 whitespace-pre-line"><strong>${field}:</strong><br>${insightsData[field]}</p><hr class="my-2 border-t border-gray-300">`
+              );
             }
-        
-            // Generate sensor data every 10 seconds.
-            setInterval(generateSensorData, 10000);
-          </script>
+            insightsElement.innerHTML = messages.join("");
+          }
+      
+          // Generate sensor data every 10 seconds.
+          setInterval(generateSensorData, 10000);
+        </script>
       </main>
-
+      
       <!-- Bottom Footer -->
       <footer
-        :class="colorScheme === 'blue' ? 'bg-gradient-to-r from-blue-800 to-blue-600 border-t border-blue-700' : 'bg-gradient-to-r from-green-800 to-green-600 border-t border-green-700'"
+        :class="colorScheme === 'blue' ? 'bg-gradient-to-r from-blue-800 to-blue-600 border-t border-blue-700' 
+                                       : 'bg-gradient-to-r from-green-800 to-green-600 border-t border-green-700'"
         class="footer shadow p-4 text-center text-white"
       >
         &copy; 2025 Admin Panel
       </footer>
     </div>
-
-    <!-- Right Side Panel (thin and empty) -->
-    <aside 
-      class="fixed inset-y-0 right-0 w-16 shadow flex items-center justify-center"
-      :class="colorScheme === 'blue' ? 'bg-blue-700 border-l border-blue-800' : 'bg-green-700 border-l border-green-800'"
-    >
-      <i class="fas fa-ellipsis-v text-white"></i>
-    </aside>
   </div>
 </body>
 </html>
